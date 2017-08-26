@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: List
+      redirect: '/in_theaters'
     },
     {
       path: '/in_theaters',

@@ -2,7 +2,7 @@
   <div>
     <section class="list">
       <ul>
-        <li v-for='item in movieList'>
+        <li v-for='item in movieList' :key='item.id'>
           <router-link tag='a' :to="{ name: 'Detail', params: { id: item.id }}"> 
             <img :src="item.images.large" :alt="item.title">
             <p>
@@ -42,7 +42,7 @@
     methods: {
       loadMovieList () {
         // console.log(this.$route)
-        axios.get('/api/movie/' + this.$route.path)
+        axios.get('/api/movie/' + this.$route.path )
         .then( res => {
           // console.log(res.data.subjects)
           this.movieList = res.data.subjects
