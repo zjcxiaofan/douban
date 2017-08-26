@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="list">
-      <ul>
+      <ul class="clearfix">
         <li v-for='item in movieList' :key='item.id'>
           <router-link tag='a' :to="{ name: 'Detail', params: { id: item.id }}"> 
             <img :src="item.images.large" :alt="item.title">
@@ -13,7 +13,13 @@
          </router-link>
         </li>
       </ul>
+      <div class='page'>
+        <button @click='loadPrevious'>上一页</button>
+        <span> {{ currentpage }} / {{totalpage}} 页</span>
+        <button @click='loadNext'>下一页</button>
+      </div>
     </section>
+    
     <div class="modal" v-show='isloding'>
       <img src="../../assets/images/loading2.gif"  alt="">
     </div>
@@ -26,28 +32,53 @@
     data () {
       return {
         movieList: [],
-        isloding: true
+        isloding: true,
+        pagesize: 10,
+        currentpage: 1,
+        totalpage: null
       }
     },
     created () {
-      this.loadMovieList()
+      this.loadMovieList(this.currentpage,this.pagesize)
     },
     //当组件被复用时，需要检测路由的变化
     watch: {
       '$route' () {
         this.isloding = true
-        this.loadMovieList()
+        this.loadMovieList(this.currentpage,this.pagesize)
       }
     },
     methods: {
-      loadMovieList () {
+      loadMovieList (page, pagesize) {
         // console.log(this.$route)
-        axios.get('/api/movie/' + this.$route.path )
+        axios.get('/api/movie/' + this.$route.path,{
+          params: {
+            start: (page - 1) * pagesize,
+            count: pagesize
+          }
+        })
         .then( res => {
-          // console.log(res.data.subjects)
+          console.log(res.data)
+          this.totalpage = Math.ceil(res.data.total / res.data.count)
           this.movieList = res.data.subjects
           this.isloding = false
         })
+      },
+      loadPrevious () {
+        if(this.currentpage > 1) {
+          this.isloding = true
+          this.currentpage -= 1
+          this.loadMovieList(this.currentpage, this.pagesize)
+        }
+        
+      },
+      loadNext () {
+        if(this.currentpage < this.totalpage){
+          this.isloding = true
+          this.currentpage += 1
+          this.loadMovieList(this.currentpage, this.pagesize)
+        }
+        
       }
     }
   }
@@ -57,11 +88,10 @@
 .list {
   width: 80%;
   margin:0 auto;
-  min-width: 1000px
+  min-width: 1200px
 }
 
 .list ul li {
-  margin-top:20px;
   float: left;
   width: 20%;
   padding:20px;
@@ -70,7 +100,7 @@
 .list ul li a {
   display: block;
   background: #fff;
-  width: 200px;
+  width: 180px;
   transition: all .3s;
   cursor: pointer;
 }
@@ -81,15 +111,15 @@
 }
 
 .list ul li a img {
-  width: 200px;
-  height: 280px;
+  width: 180px;
+  height: 250px;
   margin-bottom: 5px;
 }
 
 .list ul li a .title {
   display: inline-block;
   font-size: 16px;
-  max-width: 150px;
+  max-width: 120px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -126,6 +156,26 @@
   left: 50%;
   top:50%;
   transform: translate(-50%,-50%);
+}
+
+.page {
+  text-align: center;
+  height: 50px;
+}
+.page span {
+  display: inline-block;
+  margin:0px 5px 0px 5px;
+  height: 30px;
+  line-height: 30px
+}
+.page button {
+  vertical-align: center;
+  border:none;
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: #2aabd2 ;
 }
 
 </style>

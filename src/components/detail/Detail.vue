@@ -54,6 +54,7 @@
   background: #fff;
   margin:0 auto;
   margin-top: 50px;
+  padding: 5px
 }
 
 .detail h1 {
@@ -85,7 +86,8 @@
 .summary {
   font-weight: 700;
   margin-top:10px;
-  line-height: 30px
+  line-height: 30px;
+  text-align: center;
 }
 
 .summary span {

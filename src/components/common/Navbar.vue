@@ -29,7 +29,12 @@
       return {
         
       }
-    } 
+    },
+    methods: {
+      search () {
+        
+      }
+    }
   }
 </script>
 
