@@ -45,16 +45,18 @@
     watch: {
       '$route' () {
         this.isloding = true
+        this.currentpage = 1
         this.loadMovieList(this.currentpage,this.pagesize)
       }
     },
     methods: {
       loadMovieList (page, pagesize) {
-        // console.log(this.$route)
+        console.log(this.$route)
         axios.get('/api/movie/' + this.$route.path,{
           params: {
             start: (page - 1) * pagesize,
-            count: pagesize
+            count: pagesize,
+            q: this.$route.query.q
           }
         })
         .then( res => {
@@ -93,7 +95,7 @@
 
 .list ul li {
   float: left;
-  width: 20%;
+  width: 220px;
   padding:20px;
 }
 

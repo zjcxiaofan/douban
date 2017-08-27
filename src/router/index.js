@@ -33,6 +33,10 @@ export default new Router({
       name: 'Detail',
       path: '/detail',
       component: Detail
+    },
+    {
+      path: '/search',
+      component: List
     }
   ]
 })

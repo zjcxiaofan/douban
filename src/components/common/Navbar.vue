@@ -16,23 +16,27 @@
         </li>
       </ul>
       <form action="">
-        <input type="text" placeholder="请输入搜索内容...">
-        <button>搜索</button>
+        <input type="text" placeholder="请输入搜索内容..." v-model="searchText" >
+        <button @click='search'>搜索</button>
       </form>
     </div>
   </nav>
 </template>
 
 <script>
+  import router from '../../router'
   export default {
     data () {
       return {
-        
+        searchText:''
       }
     },
     methods: {
       search () {
+        const searchText = this.searchText.trim()
+        if( searchText.length == 0) return
         
+        router.push('/search?q=' + searchText)
       }
     }
   }
@@ -85,7 +89,8 @@ form button {
   height: 28px;
   width: 50px;
   border: none;
-  border-radius: 5px
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 </style>
