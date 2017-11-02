@@ -24,8 +24,8 @@
   export default {
     data () {
       return {
-        detail: {},
-        isloding: true
+        isloding: true,
+        detail: {}
       }
     },
     created () {
@@ -47,7 +47,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 .detail {
   min-width:1000px;
   width:70%; 

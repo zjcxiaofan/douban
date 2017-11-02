@@ -4,7 +4,7 @@
       <ul class="clearfix">
         <li v-for='item in movieList' :key='item.id'>
           <router-link tag='a' :to="{ name: 'Detail', params: { id: item.id }}"> 
-            <img :src="item.images.large" :alt="item.title">
+            <img :src="item.images.large" :alt="item.title" :title="item.title">
             <p>
               <span class="title">{{item.title}}</span>
               <em class="average">{{item.rating.average}}分</em>
@@ -86,7 +86,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 .list {
   width: 80%;
   margin:0 auto;
